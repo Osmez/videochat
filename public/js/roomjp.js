@@ -73,7 +73,7 @@ window.onresize = reportWindowSize;
 //
 
 function clearBoard() {
-    if (window.confirm('ِAre you sure you want to clear board? This cannot be undone')) {
+    if (window.confirm('ボードをクリアしてもよろしいですか?これは、元に戻すことはできません?')) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         socket.emit('store canvas', canvas.toDataURL());
         socket.emit('clearBoard');
@@ -189,9 +189,9 @@ function CopyClassText() {
         window.getSelection().addRange(currentRange);
     }
 
-    document.querySelector(".copycode-button").textContent = "Copied!"
+    document.querySelector(".copycode-button").textContent = "コピーされました!"
     setTimeout(()=>{
-        document.querySelector(".copycode-button").textContent = "Copy Code";
+        document.querySelector(".copycode-button").textContent = "コードをコピーする";
     }, 5000);
 }
 
@@ -226,14 +226,13 @@ let peerConnection;
 function handleGetUserMediaError(e) {
     switch (e.name) {
         case "NotFoundError":
-            alert("Unable to open your call because no camera and/or microphone" +
-            "were found.");
+            alert("カメラやマイクがないため通話を開始できません"+ e.message);
             break;
         case "SecurityError":
         case "PermissionDeniedError":
             break;
         default:
-            alert("Error opening your camera and/or microphone: " + e.message);
+            alert("カメラやマイクを開くときにエラーが発生しました\n" + e.message);
             break;
     }
 
@@ -304,7 +303,7 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
             muteIcon.id = `mute${sid}`;
             videoOff.id = `vidoff${sid}`;
             muteIcon.innerHTML = `<i class="fas fa-microphone-slash"></i>`;
-            videoOff.innerHTML = 'Video Off'
+            videoOff.innerHTML = 'ビデオオフ'
             vidCont.classList.add('video-box');
             newvideo.classList.add('video-frame');
             newvideo.autoplay = true;
@@ -330,7 +329,6 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
 
             videoContainer.appendChild(vidCont);
             videosiz.addEventListener("click",function(e){
-                console.log('sdsdsdsdsdsd')
                 
                     if(e.target.parentNode.classList.contains('enlarge')){
                         e.target.parentNode.classList.remove('enlarge');
@@ -453,15 +451,15 @@ function screenShareToggle() {
             myvideo.muted = true;
             mystream = newStream;
             screenShareButt.innerHTML = (screenshareEnabled 
-                ? `<i class="fas fa-desktop"></i><span class="tooltiptext">Stop Share Screen</span>`
-                : `<i class="fas fa-desktop"></i><span class="tooltiptext">Share Screen</span>`
+                ? `<i class="fas fa-desktop"></i><span class="tooltiptext">画面共有を停止する</span>`
+                : `<i class="fas fa-desktop"></i><span class="tooltiptext">画面を共有</span>`
             );
             myscreenshare.getVideoTracks()[0].onended = function() {
                 if (screenshareEnabled) screenShareToggle();
             };
         })
         .catch((e) => {
-            alert("Unable to share screen:" + e.message);
+            alert("画面を共有できません:\n" + e.message);
             console.error(e);
         });
 }
@@ -517,7 +515,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
                     muteIcon.id = `mute${sid}`;
                     videoOff.id = `vidoff${sid}`;
                     muteIcon.innerHTML = `<i class="fas fa-microphone-slash"></i>`;
-                    videoOff.innerHTML = 'Video Off'
+                    videoOff.innerHTML = 'ビデオオフ'
                     vidCont.classList.add('video-box');
                     newvideo.classList.add('video-frame');
                     newvideo.autoplay = true;
@@ -584,7 +582,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
 
     }
     else {
-        console.log('waiting for someone to join');
+        console.log('誰かが参加するのを待っています');
         navigator.mediaDevices.getUserMedia(mediaConstraints)
             .then(localStream => {
                 myvideo.srcObject = localStream;

@@ -73,7 +73,7 @@ window.onresize = reportWindowSize;
 //
 
 function clearBoard() {
-    if (window.confirm('ِAre you sure you want to clear board? This cannot be undone')) {
+    if (window.confirm('هل تريد بالتأكيد مسح الشاشة؟ لايمكن التراجع عن هذا الخيار')) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         socket.emit('store canvas', canvas.toDataURL());
         socket.emit('clearBoard');
@@ -189,9 +189,9 @@ function CopyClassText() {
         window.getSelection().addRange(currentRange);
     }
 
-    document.querySelector(".copycode-button").textContent = "Copied!"
+    document.querySelector(".copycode-button").textContent = "تم نسخ الرابط!"
     setTimeout(()=>{
-        document.querySelector(".copycode-button").textContent = "Copy Code";
+        document.querySelector(".copycode-button").textContent = "نسخ الرابط";
     }, 5000);
 }
 
@@ -226,14 +226,14 @@ let peerConnection;
 function handleGetUserMediaError(e) {
     switch (e.name) {
         case "NotFoundError":
-            alert("Unable to open your call because no camera and/or microphone" +
-            "were found.");
+            alert("لايمكن بدء المحادثة لم يتم العثور على كاميرا او مايكروفون" +
+                "!");
             break;
         case "SecurityError":
         case "PermissionDeniedError":
             break;
         default:
-            alert("Error opening your camera and/or microphone: " + e.message);
+            alert("خطأ فتح الكاميرا او المايكروفون \n" + e.message);
             break;
     }
 
@@ -304,7 +304,7 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
             muteIcon.id = `mute${sid}`;
             videoOff.id = `vidoff${sid}`;
             muteIcon.innerHTML = `<i class="fas fa-microphone-slash"></i>`;
-            videoOff.innerHTML = 'Video Off'
+            videoOff.innerHTML = 'لايوجد فيديو'
             vidCont.classList.add('video-box');
             newvideo.classList.add('video-frame');
             newvideo.autoplay = true;
@@ -453,15 +453,15 @@ function screenShareToggle() {
             myvideo.muted = true;
             mystream = newStream;
             screenShareButt.innerHTML = (screenshareEnabled 
-                ? `<i class="fas fa-desktop"></i><span class="tooltiptext">Stop Share Screen</span>`
-                : `<i class="fas fa-desktop"></i><span class="tooltiptext">Share Screen</span>`
+                ? `<i class="fas fa-desktop"></i><span class="tooltiptext">ايقاف مشاركة الشاشة</span>`
+                : `<i class="fas fa-desktop"></i><span class="tooltiptext">شارك الشاشة</span>`
             );
             myscreenshare.getVideoTracks()[0].onended = function() {
                 if (screenshareEnabled) screenShareToggle();
             };
         })
         .catch((e) => {
-            alert("Unable to share screen:" + e.message);
+            alert("لايمكن مشاركة الشاشة:\n" + e.message);
             console.error(e);
         });
 }
@@ -517,7 +517,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
                     muteIcon.id = `mute${sid}`;
                     videoOff.id = `vidoff${sid}`;
                     muteIcon.innerHTML = `<i class="fas fa-microphone-slash"></i>`;
-                    videoOff.innerHTML = 'Video Off'
+                    videoOff.innerHTML = 'لايوجد فيديو'
                     vidCont.classList.add('video-box');
                     newvideo.classList.add('video-frame');
                     newvideo.autoplay = true;
@@ -544,7 +544,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
                     videoContainer.appendChild(vidCont);
                     videosiz.addEventListener("click",function(e){
                         
-                            
+                            console.log('ccccccccccccccccccccc')
                             if(e.target.parentNode.classList.contains('enlarge')){
                                 e.target.parentNode.classList.remove('enlarge');
                             }else{
@@ -584,7 +584,7 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
 
     }
     else {
-        console.log('waiting for someone to join');
+        console.log('بانتظار انضمام مشتركين');
         navigator.mediaDevices.getUserMedia(mediaConstraints)
             .then(localStream => {
                 myvideo.srcObject = localStream;

@@ -73,7 +73,7 @@ window.onresize = reportWindowSize;
 //
 
 function clearBoard() {
-    if (window.confirm('ِAre you sure you want to clear board? This cannot be undone')) {
+    if (window.confirm('Are you sure you want to clear board? This cannot be undone')) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         socket.emit('store canvas', canvas.toDataURL());
         socket.emit('clearBoard');
@@ -227,7 +227,7 @@ function handleGetUserMediaError(e) {
     switch (e.name) {
         case "NotFoundError":
             alert("Unable to open your call because no camera and/or microphone" +
-            "were found.");
+                "were found.");
             break;
         case "SecurityError":
         case "PermissionDeniedError":
@@ -293,13 +293,11 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
             let name = document.createElement('div');
             let muteIcon = document.createElement('div');
             let videoOff = document.createElement('div');
-            let videosiz = document.createElement('button');
-            videosiz.classList.add('video-siz');
+            
             videoOff.classList.add('video-off');
             muteIcon.classList.add('mute-icon');
             name.classList.add('nametag');
             name.innerHTML = `${cName[sid]}`;
-            videosiz.innerText = "< >";
             vidCont.id = sid;
             muteIcon.id = `mute${sid}`;
             videoOff.id = `vidoff${sid}`;
@@ -322,23 +320,13 @@ function handleVideoOffer(offer, sid, cname, micinf, vidinf) {
             else
                 videoOff.style.visibility = 'visible';
             
-            vidCont.appendChild(videosiz);
             vidCont.appendChild(newvideo);
             vidCont.appendChild(name);
             vidCont.appendChild(muteIcon);
             vidCont.appendChild(videoOff);
 
             videoContainer.appendChild(vidCont);
-            videosiz.addEventListener("click",function(e){
-                console.log('sdsdsdsdsdsd')
-                
-                    if(e.target.parentNode.classList.contains('enlarge')){
-                        e.target.parentNode.classList.remove('enlarge');
-                    }else{
-                        e.target.parentNode.classList.add('enlarge');
-                    }
-              
-            })
+
         }
 
 
@@ -506,12 +494,9 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
                     let name = document.createElement('div');
                     let muteIcon = document.createElement('div');
                     let videoOff = document.createElement('div');
-                    let videosiz = document.createElement('button');
-                    videosiz.classList.add('video-siz');
                     videoOff.classList.add('video-off');
                     muteIcon.classList.add('mute-icon');
                     name.classList.add('nametag');
-                    videosiz.innerText = "< >";
                     name.innerHTML = `${cName[sid]}`;
                     vidCont.id = sid;
                     muteIcon.id = `mute${sid}`;
@@ -539,19 +524,8 @@ socket.on('join room', async (conc, cnames, micinfo, videoinfo) => {
                     vidCont.appendChild(name);
                     vidCont.appendChild(muteIcon);
                     vidCont.appendChild(videoOff);
-                    vidCont.appendChild(videosiz);
 
                     videoContainer.appendChild(vidCont);
-                    videosiz.addEventListener("click",function(e){
-                        
-                            
-                            if(e.target.parentNode.classList.contains('enlarge')){
-                                e.target.parentNode.classList.remove('enlarge');
-                            }else{
-                                e.target.parentNode.classList.add('enlarge');
-                            }
-                        
-                    })
 
                 }
 
